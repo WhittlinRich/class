@@ -68,9 +68,9 @@ def timerAnswer_tick():
 	ui.delay(timerNext_tick, 3)
 
 def timerNext_tick():
-		textBox_answer.text = ""
-		displayQuestion()
-		ui.delay(timerAnswer_tick, 5)
+	textBox_answer.text = ""
+	displayQuestion()
+	ui.delay(timerAnswer_tick, 5)
 	
 #init ################################
 revealAnswer = True
