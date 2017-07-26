@@ -60,20 +60,39 @@ textBox_answer.y = label_line.x + label_line.height - 15
 textBox_answer.height = 32
 textBox_answer.width = 90
 
+label_results = ui.Label()
+label_results.width = mainWindow.width * 0.80
+label_results.height = mainWindow.height * 0.80
+label_results.border_width = 2
+label_results.background_color = "white"
+label_results.font = (fontName, fontSize)
+label_results.text_color = "#138b1e"
+label_results.alignment = ui.ALIGN_CENTER
+label_results.line_break_mode = ui.LB_WORD_WRAP
+label_results.number_of_lines = 2
+label_results.center = (mainWindow.width/2, mainWindow.height/2)
+label_results.hidden = True
 
 #ui actions ###########################
 
 def timerAnswer_tick():
 	textBox_answer.text = str(result)
-	ui.delay(timerNext_tick, 3)
+	ui.delay(timerNext_tick, 2)
 
 def timerNext_tick():
-	textBox_answer.text = ""
-	displayQuestion()
-	ui.delay(timerAnswer_tick, 5)
-	
+	if questionCounter > 0:
+		textBox_answer.text = ""
+		displayQuestion()
+		ui.delay(timerAnswer_tick, 4)
+	else:
+		end()
+				
 #init ################################
+
 revealAnswer = True
+
+totalQuestions = 10
+questionCounter = totalQuestions
 
 minRangeTop = 1
 maxRangeTop = 10
@@ -87,6 +106,7 @@ result = 0
 def displayQuestion():
 	global result
 	global minRangeTop
+	global questionCounter
 	
 	randomBottom = random.randint(minRangeBot, maxRangeBot)
 	if operation == '-':
@@ -98,7 +118,13 @@ def displayQuestion():
 	label_operation.text = operation
 	label_top.text = str(randomTop)
 	label_bottom.text = str(randomBottom)
-		
+	
+	questionCounter -= 1
+
+def end():
+	label_results.text = str(totalQuestions) + " questions\ncomplete!"
+	label_results.hidden = False
+	ui.cancel_delays()				
 
 #display window ##########################
 
@@ -110,9 +136,10 @@ mainWindow.add_subview(label_bottom)
 mainWindow.add_subview(label_operation)
 mainWindow.add_subview(label_line)
 mainWindow.add_subview(textBox_answer)
+mainWindow.add_subview(label_results)
 
 mainWindow.present('sheet')
 
-ui.delay(timerAnswer_tick, 5)
+ui.delay(timerAnswer_tick, 4)
 
 ###########################################
