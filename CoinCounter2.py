@@ -1,4 +1,5 @@
 import ui
+import dialogs
 import random
 import threading
 
@@ -8,7 +9,7 @@ mainWindow = ui.View()
 mainWindow.name = 'Coin Counter'
 mainWindow.background_color = 'white'
 mainWindow.width = 600 #ui.get_screen_size().width
-mainWindow.height = 600 #ui.get_screen_size().height
+mainWindow.height = 500 #ui.get_screen_size().height
 
 # ui components #########################
 
@@ -53,7 +54,10 @@ def textBox1_action(sender):
 		label_status.text_color = (0.0, 0.7, 0.0)
 		label_status.hidden = False
 		clearCoins()
-		displayCoins()
+		if questionCounter == 0:
+			end()
+		else:
+			displayCoins()
 	else:
 		label_status.text = "Nope."
 		label_status.text_color = (0.8, 0.0, 0.0)
@@ -80,6 +84,9 @@ currentX = 0
 currentRow = 0
 rowHeight = 100
 gap = 6
+
+totalQuestions = 10
+questionCounter = totalQuestions
 
 #functions ###########################
 
@@ -112,7 +119,9 @@ def displayCoins():
 	global coinAmount
 	global currentX
 	global currentRow
+	global questionCounter
 	
+	questionCounter -= 1
 	totalCoins = random.randint(3, 10)
 	
 	for i in range(totalCoins):
@@ -138,6 +147,13 @@ def displayCoins():
 			
 		coinContainer.add_subview(picture1)
 		
+
+def end():
+	textBox1.hidden = True
+	label1.hidden = True
+	msg = "You completed\n" + str(totalQuestions) + " questions!"
+	dialogs.alert("Done!", msg, "OK", hide_cancel_button = True)
+
 
 #display window ##########################
 
