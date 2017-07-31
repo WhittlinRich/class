@@ -1,5 +1,5 @@
 import ui
-import dialogs
+#import dialogs
 import random
 import threading
 
@@ -10,6 +10,9 @@ mainWindow.name = 'Coin Counter'
 mainWindow.background_color = 'white'
 mainWindow.width = 600 #ui.get_screen_size().width
 mainWindow.height = 500 #ui.get_screen_size().height
+
+fontName = "courier"
+fontSize = 30
 
 # ui components #########################
 
@@ -40,6 +43,19 @@ coinContainer.height = mainWindow.height - 120
 coinContainer.x = 30
 coinContainer.y = 100
 
+label_results = ui.Label()
+label_results.x = 0
+label_results.y = 0
+label_results.width = mainWindow.width
+label_results.height = mainWindow.height
+label_results.background_color = "white"
+label_results.font = (fontName, fontSize)
+label_results.text_color = "#138b1e"
+label_results.alignment = ui.ALIGN_CENTER
+label_results.line_break_mode = ui.LB_WORD_WRAP
+label_results.number_of_lines = 2
+label_results.hidden = True
+
 #ui actions ###########################
 
 def timer1_tick():
@@ -62,9 +78,10 @@ def textBox1_action(sender):
 		label_status.text = "Nope."
 		label_status.text_color = (0.8, 0.0, 0.0)
 		label_status.hidden = False		
+		
 	sender.text = ""
 	t = threading.Timer(1.0, timer1_tick)
-	t.start()	
+	t.start()		
 
 
 #init ################################
@@ -149,10 +166,10 @@ def displayCoins():
 		
 
 def end():
-	textBox1.hidden = True
-	label1.hidden = True
 	msg = "You completed\n" + str(totalQuestions) + " questions!"
-	dialogs.alert("Done!", msg, "OK", hide_cancel_button = True)
+	#dialogs.alert("Done!", msg, "OK", hide_cancel_button = True)
+	label_results.text = msg
+	label_results.hidden = False
 
 
 #display window ##########################
@@ -163,6 +180,7 @@ mainWindow.add_subview(coinContainer)
 mainWindow.add_subview(label1)
 mainWindow.add_subview(label_status)
 mainWindow.add_subview(textBox1)
+mainWindow.add_subview(label_results)
 
 #mainWindow.present('fullscreen')
 mainWindow.present('sheet')
